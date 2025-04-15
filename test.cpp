@@ -13,33 +13,19 @@ std::map<char, int> countCharFrequencies(const std::string& text) {
     }
     return freqMap;
 }
-/*
-BOOST_AUTO_TEST_CASE(test_error_checking) {
-    // Sample text for testing
-    std::string sampleText = "abcdefghijklmnopqrstuvwxyz";
 
+BOOST_AUTO_TEST_CASE(test_error_handling) {
+    std::string sampleText = "abcabdabeabfabgabhabcabd";
+    RandWriter writer(sampleText, 2);
+    BOOST_REQUIRE_THROW(writer.freq("a"), std::invalid_argument);
+    BOOST_REQUIRE_THROW(writer.freq("abc"), std::invalid_argument);
+    BOOST_REQUIRE_THROW(writer.freq("a", 'b'), std::invalid_argument);
 
-    BOOST_REQUIRE_NO_THROW(RandWriter writer(sampleText, 3));
-
-    RandWriter writer(sampleText, 3);
-
-    BOOST_REQUIRE_NO_THROW(writer.freq("abc"));
-    BOOST_REQUIRE_NO_THROW(writer.freq("abc", 'd'));
-
-    BOOST_REQUIRE_THROW(writer.freq("ab"), std::exception);
-    BOOST_REQUIRE_THROW(writer.freq("abcd"), std::exception);
-
-    BOOST_REQUIRE_THROW(writer.freq("ab", 'c'), std::exception);
-    BOOST_REQUIRE_THROW(writer.freq("abcd", 'c'), std::exception);
-
-    BOOST_REQUIRE_THROW(writer.kRand("ab"), std::exception);
-    BOOST_REQUIRE_THROW(writer.kRand("abcd"), std::exception);
-
-    BOOST_REQUIRE_THROW(writer.kRand("xyz"), std::exception);
-
-    BOOST_REQUIRE_THROW(writer.generate("ab", 10), std::exception);
-    BOOST_REQUIRE_THROW(writer.generate("abcd", 10), std::exception);
-} */
+    // kRand with invalid length or missing kgram
+    BOOST_REQUIRE_THROW(writer.kRand("a"), std::invalid_argument);
+    BOOST_REQUIRE_THROW(writer.kRand("zz"), std::invalid_argument);  // not found
+    BOOST_REQUIRE_THROW(writer.generate("a", 10), std::invalid_argument);
+}
 
 BOOST_AUTO_TEST_CASE(test_krand) {
     std::string sampleText = "abcabdabeabfabgabhabcabd";

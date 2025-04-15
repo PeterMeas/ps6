@@ -1,5 +1,8 @@
 // Copyright 2025 PETER
 #include <string>
+#include <random>
+#include <iostream>
+#include <map>
 
 class RandWriter {
  public:
@@ -28,6 +31,19 @@ class RandWriter {
     //  Assume that L is at least k
     std::string generate(const std::string& kgram, size_t l);
 
+  friend std::ostream& operator<<(std::ostream& os, const RandWriter& writer);
+
  private:
+size_t k;  // order k
+std::string text;  // original text
+//  key : kgram string value: # of occurances
+std::map<std::string, int> kgramFreq;  // map for kgram freq
+//  map to store k+1 gram freq (k-gram followed by char)
+std::map<std::string, int> kPlusOneGramFreq;  // key k+1 gram, value: count occurances
+std::string alphabet;  // store unique char in txt
+std::mt19937 rng;  // random #
+
+
     //  Private member variables go here
 };
+std::ostream& operator<<(std::ostream& os, const RandWriter& writer);
